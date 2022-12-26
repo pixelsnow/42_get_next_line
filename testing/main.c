@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:01:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/26 16:40:46 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:07:09 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ int main(void)
 		printf("open() error\n");
 		return (1);
 	}
-	get_next_line(fd);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	if (close(fd) == -1)
 	{
 		printf("close() error\n");

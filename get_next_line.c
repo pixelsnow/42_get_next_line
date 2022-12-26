@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/26 23:40:48 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:06:32 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,52 @@
 
 // TODO: make sure to handle std input as well
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	res;
+
+	res = 0;
+	while (s[res])
+		res++;
+	return (res);
+}
+
+char	*append_line(char *old_res, char buf[BUFFER_SIZE + 1], int start, int len)
+{
+	int		i;
+	char	*res;
+
+	res = (char	*)malloc(sizeof(char) *
+		(ft_strlen(old_res) + len + 1));
+	if (!res)
+	{
+		free(old_res);
+		return (NULL);
+	}
+	i = 0;
+	while (old_res[i])
+	{
+		res[i] = old_res[i];
+		i++;
+	}
+	res[i + len] = '\0';
+	while (len)
+	{
+		len--;
+		res[i + len] = buf[start + len];
+	}
+	return (res);
+}
+
 int	find_newline(char buf[BUFFER_SIZE + 1], int start_index)
 {
-	/* if (start_index < 0)
-		start_index = 0; */
 	while (buf[start_index])
 	{
 		if (buf[start_index] == '\n')
-			return (start_index);
+			return (start_index + 1);
 		start_index++;
 	}
-	return (-1);
+	return (0);
 }
 
 char	*read_file(int fd)
@@ -33,7 +68,7 @@ char	*read_file(int fd)
 	static char	buf[BUFFER_SIZE + 1];
 	char		*res;
 	static int	line_start = 0;
-	static int	line_len = -1; // Can it be 0?
+	static int	line_len = 0; // Can it be 0?
 	int			ret;
 
 	// Possibly make a separate init function
@@ -41,7 +76,7 @@ char	*read_file(int fd)
 	if (!res)
 		return (NULL);
 	res[0] = '\0';
-	while (line_len < 0)
+	while (!line_len)
 	{
 		if (!line_start)
 		{
@@ -49,35 +84,34 @@ char	*read_file(int fd)
 			if (ret < 0)
 				return (NULL);
 			if (!ret)
-			{
 				return (res);
-			}
 			buf[ret] = '\0';
 		}
 		line_len = find_newline(buf, line_start);
 		// If newline was found in buffer, result will be returned here
-		if (line_len >= 0)
+		if (line_len > 0)
 		{
 			// Two different append functions? Think about input
 			// Or just send BUFFER_SIZE - line_start
-			if (!append_line(res, buf, line_start, line_len))
+			res = append_line(res, buf, line_start, line_len);
+			if (!res)
 				return (NULL);
 			line_start += line_len; // only OK if line_start is 0 not -1
-			line_len = -1;
+			line_len = 0;
 			return (res);
 		}
 		else
 		{
 			// if newline wasn't found in the buffer,
 			// append the rest of the buffer to result
-			if (!append_line(res, buf, line_start, BUFFER_SIZE))
+			res = append_line(res, buf, line_start, BUFFER_SIZE - line_start);
+			if (!res)
 				return (NULL);
 			// Reset line start
 			line_start = 0; // or -1?
-			line_len = -1;
+			line_len = 0;
 		}
 	}
-	printf("%s\n%d\n", buf, ret);
 	return (NULL);
 }
 
