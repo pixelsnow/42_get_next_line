@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 00:24:47 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:39:08 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 // TODO: make sure to handle std input as well
+// TODO: think about what's returned when EOF
 
 size_t	ft_strlen(const char *s)
 {
@@ -43,6 +44,7 @@ char	*append_line(char *old_res, char buf[BUFFER_SIZE + 1], int start, int len)
 		res[i] = old_res[i];
 		i++;
 	}
+	free(old_res);
 	res[i + len] = '\0';
 	while (len)
 	{
@@ -78,8 +80,6 @@ char	*read_file(int fd)
 	res[0] = '\0';
 	while (!line_len)
 	{
-		printf("res: '%s', line_len: %d, line_start: %d\n",
-			res, line_len, line_start);
 		if (!line_start)
 		{
 			ret = read(fd, buf, BUFFER_SIZE);
@@ -88,31 +88,23 @@ char	*read_file(int fd)
 			if (!ret)
 				return (res);
 			buf[ret] = '\0';
-			printf("new buffer: '%s'\n", buf);
 		}
 		line_len = find_newline(buf, line_start) - line_start;
-		printf("line_len updated with find_newline: %d\n", line_len);
-		// If newline was found in buffer, result will be returned here
 		if (line_len > 0)
 		{
-			// Two different append functions? Think about input
-			// Or just send BUFFER_SIZE - line_start
 			res = append_line(res, buf, line_start, line_len);
 			if (!res)
 				return (NULL);
-			line_start += line_len; // only OK if line_start is 0 not -1
+			line_start += line_len;
 			line_len = 0;
 			return (res);
 		}
 		else
 		{
-			// if newline wasn't found in the buffer,
-			// append the rest of the buffer to result
 			res = append_line(res, buf, line_start, BUFFER_SIZE - line_start);
 			if (!res)
 				return (NULL);
-			// Reset line start
-			line_start = 0; // or -1?
+			line_start = 0;
 			line_len = 0;
 		}
 	}
