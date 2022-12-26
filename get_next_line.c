@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 00:45:59 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:48:30 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 // TODO: make sure to handle std input as well
-// TODO: think about what's returned when EOF
+// TODO: think about data types
 
 size_t	ft_strlen(const char *s)
 {
