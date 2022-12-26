@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 00:39:08 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:45:59 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,17 @@ char	*read_file(int fd)
 		{
 			ret = read(fd, buf, BUFFER_SIZE);
 			if (ret < 0)
+			{
+				free(res);
 				return (NULL);
+			}
 			if (!ret)
-				return (res);
+			{
+				if (res[0])
+					return (res);
+				free(res);
+				return (NULL);
+			}
 			buf[ret] = '\0';
 		}
 		line_len = find_newline(buf, line_start) - line_start;
@@ -113,7 +121,7 @@ char	*read_file(int fd)
 
 char	*get_next_line(int fd)
 {
-	if (fd == -1 || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	return (read_file(fd));
 }
