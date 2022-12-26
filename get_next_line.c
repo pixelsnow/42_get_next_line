@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 00:06:32 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:22:10 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	*read_file(int fd)
 	res[0] = '\0';
 	while (!line_len)
 	{
+		printf("res: '%s', line_len: %d, line_start: %d\n",
+			res, line_len, line_start);
 		if (!line_start)
 		{
 			ret = read(fd, buf, BUFFER_SIZE);
@@ -86,8 +88,10 @@ char	*read_file(int fd)
 			if (!ret)
 				return (res);
 			buf[ret] = '\0';
+			printf("new buffer: '%s'\n", buf);
 		}
 		line_len = find_newline(buf, line_start);
+		printf("line_len updated with find_newline: %d\n", line_len);
 		// If newline was found in buffer, result will be returned here
 		if (line_len > 0)
 		{
