@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 00:22:10 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 00:24:47 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*read_file(int fd)
 			buf[ret] = '\0';
 			printf("new buffer: '%s'\n", buf);
 		}
-		line_len = find_newline(buf, line_start);
+		line_len = find_newline(buf, line_start) - line_start;
 		printf("line_len updated with find_newline: %d\n", line_len);
 		// If newline was found in buffer, result will be returned here
 		if (line_len > 0)
