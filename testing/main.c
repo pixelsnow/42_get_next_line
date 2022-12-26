@@ -6,15 +6,28 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:01:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/26 16:06:58 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/26 16:40:46 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../get_next_line.h"
 #include <fcntl.h>
+#include <stdio.h>
 
 int main(void)
 {
-	
-	get_next_line();
+	int	fd;
+	fd = open("testing/test1", O_RDONLY);
+	if (fd == -1)
+	{
+		printf("open() error\n");
+		return (1);
+	}
+	get_next_line(fd);
+	if (close(fd) == -1)
+	{
+		printf("close() error\n");
+		return (1);
+	}
+	return (0);
 }
