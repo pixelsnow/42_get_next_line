@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:01:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 13:44:26 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 14:19:55 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	int	fd;
+
 	fd = open("testing/test2", O_RDONLY);
 	if (fd == -1)
 	{
