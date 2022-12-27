@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 15:36:27 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 16:52:18 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // chars from buffer to new memory, frees memory from old result
 static char	*append_line(char *old_res, char *buf, ssize_t start, ssize_t len)
 {
-	ssize_t		i;
+	ssize_t	i;
 	char	*res;
 
 	res = (char *)malloc(sizeof(char)
@@ -68,7 +68,8 @@ static int	read_to_buf(int fd, char **res, char *buf)
 // 		and therefore it's time to add the last chunk to result and return it.
 // line_start is set to the next character after newline,
 // line_len is set to 0 in preparation for next get_next_line() call.
-static char	*finish_line(char *res, char *buf, ssize_t *line_start, ssize_t *line_len)
+static char	*finish_line(char *res, char *buf, ssize_t *line_start,
+		ssize_t *line_len)
 {
 	res = append_line(res, buf, *line_start, *line_len);
 	*line_start += *line_len;
@@ -117,7 +118,7 @@ char	*get_next_line(int fd)
 	while (!line_len)
 	{
 		if (!line_start && !read_to_buf(fd, &res, buf))
-				return (res);
+			return (res);
 		line_len = find_newline(buf, line_start) - line_start;
 		if (line_len > 0)
 			return (finish_line(res, buf, &line_start, &line_len));
