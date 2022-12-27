@@ -6,14 +6,17 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 14:21:43 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:11:34 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 // TODO: think about data types 
 
+// Allocates enough memory for new result, copies old result and additional
+// chars from buffer to new memory, frees memory from old result
 static char	*append_line(char *old_res, char *buf, int start, int len)
 {
 	int		i;
@@ -43,7 +46,9 @@ static char	*append_line(char *old_res, char *buf, int start, int len)
 }
 
 // If 0 is returned from this function,
-// 		nothing was read and res needs to be retuned
+// 		nothing was read and res needs to be returned (or NULL)
+// 		It can either mean that EOF was reached and result is ready,
+// 		or that reading from file failed and there was an error.
 // If 1 is returned, data was read to buffer and the process can continue
 static int	read_to_buf(int fd, char **res, char *buf)
 {
@@ -62,14 +67,23 @@ static int	read_to_buf(int fd, char **res, char *buf)
 	return (1);
 }
 
+// This function is called when a newline was found in buffer
+// 		and therefore it's time to add the last chunk to result and return it.
+// line_start is set to the next character after newline,
+// line_len is set to 0 in preparation for next get_next_line() call.
 static char	*finish_line(char *res, char *buf, int *line_start, int *line_len)
 {
-	res = append_line(res, buf, *line_start, *line_start);
+	res = append_line(res, buf, *line_start, *line_len);
 	*line_start += *line_len;
 	*line_len = 0;
 	return (res);
 }
 
+// This function is called when no newline was found in buffer
+// 		and therefore all we need to do is append buffer to result.
+// It returns 0 in case or error (malloc fail), returns 1 if success.
+// line_start and line_len values are also reset
+//		in preparation for next buffer read.
 static int	add_buf_to_res(char **res, char *buf, int *line_start,
 		int *line_len)
 {
@@ -81,7 +95,19 @@ static int	add_buf_to_res(char **res, char *buf, int *line_start,
 	return (1);
 }
 
-//return (finish_line(res, buf, &line_start, &line_len));
+// line_len indicates index in the buffer
+//		after the end of the current line.
+// line_start indicates index in the buffer
+//		from which the next line should be started to be read.
+//		0 value indicates that new info needs to be read to buffer.
+// First obvious errors are handled
+// 		and res is initialised as an empty string.
+// New data is being read to buffer and added to res until either
+//		newline is found or EOF is reached (or error happened)
+// If newline was found, it and everything before it is added to res
+//		and res is returned.
+// If EOF reached and there was something in res, res is returned,
+//		otherwise NULL is returned.
 char	*get_next_line(int fd)
 {
 	char		*res;
@@ -98,12 +124,7 @@ char	*get_next_line(int fd)
 				return (res);
 		line_len = find_newline(buf, line_start) - line_start;
 		if (line_len > 0)
-		{
-			res = append_line(res, buf, line_start, line_len);
-			line_start += line_len;
-			line_len = 0;
-			return (res);
-		}
+			return (finish_line(res, buf, &line_start, &line_len));
 		else if (!add_buf_to_res(&res, buf, &line_start, &line_len))
 			return (NULL);
 	}
