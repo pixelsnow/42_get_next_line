@@ -6,14 +6,13 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 13:46:47 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 13:55:41 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-// TODO: make sure to handle std input as well
 // TODO: think about data types
 
 size_t	ft_strlen(const char *s)
@@ -87,18 +86,26 @@ int	read_to_buf(int fd, char **res, char buf[BUFFER_SIZE + 1])
 /* char	*finish_line(char *res, char buf[BUFFER_SIZE + 1], int *line_start, int *line_len)
 {
 	res = append_line(res, buf, *line_start, *line_start);
-	if (!res)
-		return (NULL);
 	*line_start += *line_len;
 	*line_len = 0;
 	return (res);
 } */
 
+int	add_buf_to_res(char **res, char buf[BUFFER_SIZE + 1], int *line_start, int *line_len)
+{
+	*res = append_line(*res, buf, *line_start, BUFFER_SIZE - *line_start);
+	if (!*res)
+		return (0);
+	*line_start = 0;
+	*line_len = 0;
+	return (1);
+}
+
 // Possibly make a separate init function
 char	*read_file(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
 	char		*res;
+	static char	buf[BUFFER_SIZE + 1];
 	static int	line_start = 0;
 	static int	line_len = 0;
 	
@@ -115,22 +122,13 @@ char	*read_file(int fd)
 		if (line_len > 0)
 		{
 			//return (finish_line(res, buf, &line_start, &line_len));
-			
 			res = append_line(res, buf, line_start, line_len);
-			if (!res)
-				return (NULL);
 			line_start += line_len;
 			line_len = 0;
 			return (res);
 		}
-		else
-		{
-			res = append_line(res, buf, line_start, BUFFER_SIZE - line_start);
-			if (!res)
-				return (NULL);
-			line_start = 0;
-			line_len = 0;
-		}
+		else if (!add_buf_to_res(&res, buf, &line_start, &line_len))
+			return (NULL);
 	}
 	return (NULL);
 }
