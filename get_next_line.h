@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:54:27 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 15:19:45 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:32:59 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # endif
 
 char	*get_next_line(int fd);
-int		find_newline(char *buf, int start_index);
-size_t	ft_strlen(const char *s);
+ssize_t	find_newline(char *buf, ssize_t start_index);
+ssize_t	ft_strlen(const char *s);
 int		init_res(char **res);
 
 #endif
