@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:01:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 00:51:27 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 13:44:26 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,12 @@
 int main(void)
 {
 	int	fd;
-	fd = open("testing/test1", O_RDONLY);
+	fd = open("testing/test2", O_RDONLY);
 	if (fd == -1)
 	{
 		printf("open() error\n");
 		return (1);
 	}
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
 	printf("	NEXT: '%s'", get_next_line(fd));
 	printf("	NEXT: '%s'", get_next_line(fd));
 	printf("	NEXT: '%s'", get_next_line(fd));
