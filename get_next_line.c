@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 13:55:41 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 13:59:46 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ int	read_to_buf(int fd, char **res, char buf[BUFFER_SIZE + 1])
 	return (1);
 }
 
-/* char	*finish_line(char *res, char buf[BUFFER_SIZE + 1], int *line_start, int *line_len)
+char	*finish_line(char *res, char buf[BUFFER_SIZE + 1], int *line_start, int *line_len)
 {
 	res = append_line(res, buf, *line_start, *line_start);
 	*line_start += *line_len;
 	*line_len = 0;
 	return (res);
-} */
+}
 
 int	add_buf_to_res(char **res, char buf[BUFFER_SIZE + 1], int *line_start, int *line_len)
 {
@@ -101,6 +101,15 @@ int	add_buf_to_res(char **res, char buf[BUFFER_SIZE + 1], int *line_start, int *
 	return (1);
 }
 
+int init_res(char **res)
+{
+	*res = (char *)malloc(sizeof(char) * 1);
+	if (!*res)
+		return (0);
+	(*res)[0] = '\0';
+	return (1);
+}
+
 // Possibly make a separate init function
 char	*read_file(int fd)
 {
@@ -109,10 +118,8 @@ char	*read_file(int fd)
 	static int	line_start = 0;
 	static int	line_len = 0;
 	
-	res = (char *)malloc(sizeof(char) * 1);
-	if (!res)
+	if (!init_res(&res))
 		return (NULL);
-	res[0] = '\0';
 	while (!line_len)
 	{
 		if (!line_start)
