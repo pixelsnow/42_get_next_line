@@ -6,13 +6,11 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 15:35:05 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:36:27 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-// TODO: think about data types 
 
 // Allocates enough memory for new result, copies old result and additional
 // chars from buffer to new memory, frees memory from old result
