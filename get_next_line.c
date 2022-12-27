@@ -6,16 +6,15 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 14:19:39 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 14:21:43 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 // TODO: think about data types 
-// #include <stdio.h>
 
-char	*append_line(char *old_res, char *buf, int start, int len)
+static char	*append_line(char *old_res, char *buf, int start, int len)
 {
 	int		i;
 	char	*res;
@@ -46,7 +45,7 @@ char	*append_line(char *old_res, char *buf, int start, int len)
 // If 0 is returned from this function,
 // 		nothing was read and res needs to be retuned
 // If 1 is returned, data was read to buffer and the process can continue
-int	read_to_buf(int fd, char **res, char *buf)
+static int	read_to_buf(int fd, char **res, char *buf)
 {
 	int	ret;
 
@@ -63,7 +62,7 @@ int	read_to_buf(int fd, char **res, char *buf)
 	return (1);
 }
 
-char	*finish_line(char *res, char *buf, int *line_start, int *line_len)
+static char	*finish_line(char *res, char *buf, int *line_start, int *line_len)
 {
 	res = append_line(res, buf, *line_start, *line_start);
 	*line_start += *line_len;
@@ -71,7 +70,8 @@ char	*finish_line(char *res, char *buf, int *line_start, int *line_len)
 	return (res);
 }
 
-int	add_buf_to_res(char **res, char *buf, int *line_start, int *line_len)
+static int	add_buf_to_res(char **res, char *buf, int *line_start,
+		int *line_len)
 {
 	*res = append_line(*res, buf, *line_start, BUFFER_SIZE - *line_start);
 	if (!*res)
