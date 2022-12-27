@@ -6,12 +6,11 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 15:53:55 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 15:11:34 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:24:19 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 // TODO: think about data types 
 
@@ -119,8 +118,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (!line_len)
 	{
-		if (!line_start)
-			if (!read_to_buf(fd, &res, buf))
+		if (!line_start && !read_to_buf(fd, &res, buf))
 				return (res);
 		line_len = find_newline(buf, line_start) - line_start;
 		if (line_len > 0)
