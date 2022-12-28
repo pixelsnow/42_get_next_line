@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:01:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2022/12/27 14:26:36 by vvagapov         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:27:24 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,22 @@ int	main(void)
 {
 	int	fd;
 
-	fd = open("testing/test1", O_RDONLY);
+	fd = open("testing/bible.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		printf("open() error\n");
 		return (1);
 	}
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
-	printf("	NEXT: '%s'", get_next_line(fd));
+	char *res;
+	res = get_next_line(fd);
+	printf("%s\n", res);
+	free(res);
+	while (res)
+	{
+		res = get_next_line(fd);
+		printf("%s\n", res);
+		free(res);
+	}
 	if (close(fd) == -1)
 	{
 		printf("close() error\n");
