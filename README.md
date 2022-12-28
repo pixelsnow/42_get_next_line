@@ -1,6 +1,6 @@
 # get_next_line
 
-Passed with **100**/100
+✅ Passed with **100**/100
 
 My version of **get next line** School 42 project @ Hive Helsinki
 
