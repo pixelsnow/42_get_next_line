@@ -4,7 +4,7 @@
 
 My version of **get next line** School 42 project @ Hive Helsinki
 
-## Summary
+## Task summary
 
 This project is about programming a function that returns a line read from a file descriptor.
 
