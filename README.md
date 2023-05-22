@@ -2,7 +2,7 @@
 
 ✅ Passed with **100**/100
 
-My version of **get next line** School 42 project @ Hive Helsinki
+My version of **get next line** School 42 project @ [Hive Helsinki](https://www.hive.fi/en/)
 
 ## Task summary
 
